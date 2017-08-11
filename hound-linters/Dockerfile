@@ -1,12 +1,26 @@
 FROM ruby:2.4.1
 
-RUN curl -sL https://deb.nodesource.com/setup_6.x | bash - \
+RUN apt-get update \
+  && apt-get install -y apt-transport-https \
+  && curl -sS https://deb.nodesource.com/gpgkey/nodesource.gpg.key \
+    | apt-key add - \
+  && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg \
+    | apt-key add - \
+  && echo "deb https://deb.nodesource.com/node_6.x jessie main" \
+    > /etc/apt/sources.list.d/nodesource.list \
+  && echo "deb https://dl.yarnpkg.com/debian/ stable main" \
+    > /etc/apt/sources.list.d/yarn.list \
+  && apt-get update \
   && apt-get install -y --no-install-recommends \
-  locales \
-  nodejs \
-  libqt4-dev \
-  libqtwebkit-dev \
-  git \
+    locales \
+    nodejs \
+    yarn \
+    python3 \
+    python3-pip \
+    dbus-1-dbg \
+    libqt5webkit5-dev \
+    qt5-default \
+    xvfb \
   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
@@ -21,6 +35,7 @@ RUN git clone https://github.com/houndci/linters /usr/src/app \
 WORKDIR /usr/src/app
 
 RUN bundle install
-RUN npm install
+RUN yarn install --production true
+RUN pip3 install -r requirements.txt
 
-CMD bundle exec rake jobs:work
+CMD bin/resque
