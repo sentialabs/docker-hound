@@ -31,7 +31,7 @@ RUN bundle config --global frozen 1
 RUN mkdir -p /usr/src/app
 RUN git clone https://github.com/houndci/hound /usr/src/app \
   && cd /usr/src/app \
-  && git reset --hard 7746ba991d710f32b3f1ccae5bcaa0f4176d7265
+  && git reset --hard 846133f272277f577239f862a2dd68a28af0cc7b
 WORKDIR /usr/src/app
 
 RUN gem install bundler \

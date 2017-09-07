@@ -31,7 +31,7 @@ ENV LC_ALL en_US.UTF-8
 RUN mkdir -p /usr/src/app
 RUN git clone https://github.com/houndci/linters /usr/src/app \
     && cd /usr/src/app \
-    && git reset --hard 5f53339d7f6bcf880a58db6820f10b0a720a7925
+    && git reset --hard 858addbb26f5470dc65be7c5dd61ab495583e073
 WORKDIR /usr/src/app
 
 RUN bundle install
